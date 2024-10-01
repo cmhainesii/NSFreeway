@@ -1,0 +1,12 @@
+@model string
+@{
+    var roadClasses = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Interstate", Text = "Interstate" },
+        new SelectListItem { Value = "US_Highway", Text = "US Highway" },
+        new SelectListItem { Value = "State_Highway", Text = "State Highway" },
+        new SelectListItem { Value = "County_Road", Text = "County Road" },
+        new SelectListItem { Value = "Local_Road", Text = "Local Road" }
+    };
+}
+@Html.DropDownListFor(m => m, roadClasses, "Please select a road class", new { @class = "form-select", id = ViewData["Id"], name = ViewData["Id"]})

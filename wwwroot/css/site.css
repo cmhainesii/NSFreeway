@@ -19,7 +19,9 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #F1FAEE;
 }
+
 
 .form-group {
   margin-bottom: 1rem;
@@ -27,4 +29,40 @@ body {
 
 .form-check {
   margin-top: 1rem;
+}
+
+table {
+  background-color: white;
+}
+
+.navbar {
+  background-color: #457B9D;
+}
+
+.navbar-brand {
+  color: #000000;
+}
+
+.navbar-brand:hover {
+  color: #3a3a3a;
+}
+
+.btn-danger {
+  background-color: #E63946;
+}
+
+.btn-primary {
+  background-color: #457B9D;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #425981;
+}
+
+.btn-success {
+  background-color: #457B9D;
+}
+
+.btn-success:hover, .btn-success:focus {
+  background-color: #425981;
 }

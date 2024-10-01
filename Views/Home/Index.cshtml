@@ -24,14 +24,22 @@
                 {
                     string tollString = @highway.IsTollRoad ? "Yes" : "No";
                     <tr>
-                        <td>@HighwayModel.ToReadableString(highway.RoadClass) @highway.RoadNumber</td>
+                        @if(highway.RoadClass == HighwayClass.State_Highway)
+                        {
+                            <td>@highway.BeginState @HighwayModel.ToReadableString(highway.RoadClass) @highway.RoadNumber</td>    
+                        }
+                        else
+                        {
+                            <td>@HighwayModel.ToReadableString(highway.RoadClass) @highway.RoadNumber</td>
+                        }
+                        
                         <td>@highway.BeginCity, @highway.BeginState</td>
                         <td>@highway.EndCity, @highway.EndState</td>
                         <td>@highway.Length</td>
                         <td>@tollString</td>
                         <td>
-                            <a asp-action="EditHighwayForm" asp-route-id=@highway.Id class="btn btn-primary btn-sm">Edit</a>
-                            <a asp-action="DeleteHighway" asp-route-id=@highway.Id class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-action="EditHighwayForm" asp-route-id=@highway.Id class="btn btn-primary btn-md me-4">Edit</a>
+                            <a asp-action="DeleteHighway" asp-route-id=@highway.Id class="btn btn-danger btn-md">Delete</a>
                         </td>
                     </tr>
                 }

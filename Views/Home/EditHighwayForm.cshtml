@@ -7,52 +7,14 @@
 
 <html>
     <body>
+        <h1 class="display-4 text-center mb-5">Edit Highway</h1>
         <form asp-action="EditHighway" method="post">
             <div class="form-group">
                 <label for="roadClass">Road Type:</label>
-                <select class="form-select" id="roadClass" name="roadClass" required >
-                    @if(Model.RoadClass == HighwayClass.Interstate)
-                    {
-                        <option selected value="0">Interstate</option>
-                    }
-                    else
-                    {
-                        <option value="0">Interstate</option>
-                    }
-                    @if(Model.RoadClass == HighwayClass.US_Highway)
-                    {
-                        <option value="1" selected>US Highway</option>
-                    }
-                    else
-                    {
-                        <option value="1">US Highway</option>
-                    }
-                    @if(Model.RoadClass == HighwayClass.State_Highway)
-                    {
-                        <option selected value="2">State Highway</option>
-                    }
-                    else
-                    {
-                        <option value="2">State Highway</option>
-                    }
-
-                    @if (Model.RoadClass == HighwayClass.County_Road)
-                    {
-                        <option selected value="3">County Road</option>
-                    }
-                    else
-                    {
-                        <option value="3">County Road</option>
-                    }
-                    @if (Model.RoadClass == HighwayClass.Local_Road)
-                    {
-                        <option value="4" selected>Local Road</option>
-                    }
-                    else
-                    {
-                        <option value="4">Local Road</option>
-                    }
-                </select>
+                @{
+                    ViewData["Id"] = "roadClass";
+                }
+                @await Html.PartialAsync("_RoadClassDropdown", Model.RoadClass)
             </div>
             <div class="form-group">
                 <label for="roadNumber">Road Number:</label>
@@ -64,7 +26,10 @@
             </div>
             <div class="form-group">
                 <label for="beginState">Begin State:</label>
-                <input type="text" class="form-control" name="beginState" id="beginState" value=@Model.BeginState required />
+                @{
+                    ViewData["Id"] = "beginState";
+                }
+                @await Html.PartialAsync("_StateDropdown", Model.BeginState)
             </div>
             <div class="form-group">
                 <label for="endCity">End City:</label>
@@ -72,7 +37,10 @@
             </div>
             <div class="form-group">
                 <label for="endState">End State:</label>
-                <input type="text" class="form-control" name="endState" id="endState" value=@Model.EndState required />
+                @{
+                    ViewData["Id"] = "endState";
+                }
+                @await Html.PartialAsync("_StateDropdown", Model.EndState)
             </div>
             <div class="form-group">
                 <label for="length">Length (Miles):</label>
@@ -103,7 +71,10 @@
                 </div>
             </div>
             <input type="hidden" name="id" value=@Model.Id />
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div>
+                <button type="submit" class="btn btn-success mt-4 me-5">Submit</button>
+                <a asp-action="Index" class="mt-4 btn-danger btn">Cancel</a>
+            </div>
         </form>
     </body>
 </html>

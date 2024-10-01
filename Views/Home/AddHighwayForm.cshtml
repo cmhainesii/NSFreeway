@@ -7,17 +7,14 @@
 
 <html>
     <body>
+        <h1 class="display-4 text-center mb-5">Add Highway</h1>
         <form asp-action="AddHighway" method="post">
             <div class="form-group">
                 <label for="roadClass">Road Type:</label>
-                <select class="form-select" aria-label="Select road class" id="roadClass" name="roadClass" required>
-                    <option value="" disabled selected>Please select road type</option>
-                    <option value="0">Interstate</option>
-                    <option value="1">US Highway</option>
-                    <option value="2">State Highway</option>
-                    <option value="3">County Road</option>
-                    <option value="4">Local Road</option>
-                </select>
+                @{
+                    ViewData["Id"] = "roadClass";
+                }
+                @await Html.PartialAsync("_RoadClassDropdown", null)
             </div>
             <div class="form-group">
                 <label for="roadNumber">Road Number:</label>
@@ -29,7 +26,12 @@
             </div>
             <div class="form-group">
                 <label for="beginState">Begin State:</label>
-                <input type="text" class="form-control" name="beginState" id="beginState" required />
+                @{
+                    ViewData["Id"] = "beginState";
+                    ViewData["Name"] = "beginState";
+                }
+                @await Html.PartialAsync("_StateDropdown")
+                
             </div>
             <div class="form-group">
                 <label for="endCity">End City:</label>
@@ -37,7 +39,11 @@
             </div>
             <div class="form-group">
                 <label for="endState">End State:</label>
-                <input type="text" class="form-control" id="endState" name="endState" required />
+                @{
+                    ViewData["Id"] = "endState";
+                    ViewData["Name"] = "endState";
+                }
+                @await Html.PartialAsync("_StateDropdown")
             </div>
             <div class="form-group">
                 <label for="length">Length (Miles):</label>
@@ -54,7 +60,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-success mt-4 me-5">Submit</button>
-                <a asp-action="Index" class="btn btn-primary mt-4">Cancel</a>
+                <a asp-action="Index" class="btn btn-danger mt-4">Cancel</a>
             </div>
         </form>
     </body>
