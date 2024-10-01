@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Highways";
+}
+
+@model IEnumerable<NSFreeway.Models.HighwayModel>
+
+<div>
+    <h1 class="display-4 text-center">All Highways</h1>
+    <div>
+        <a asp-action="AddHighwayForm" class="btn btn-primary mb-3">+ Add Highway</a>
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Highway</th>
+                    <th>Begins</th>
+                    <th>Ends</th>
+                    <th>Length (Miles)</th>
+                    <th>Toll Road</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var highway in Model)
+                {
+                    string tollString = @highway.IsTollRoad ? "Yes" : "No";
+                    <tr>
+                        <td>@HighwayModel.ToReadableString(highway.RoadClass) @highway.RoadNumber</td>
+                        <td>@highway.BeginCity, @highway.BeginState</td>
+                        <td>@highway.EndCity, @highway.EndState</td>
+                        <td>@highway.Length</td>
+                        <td>@tollString</td>
+                        <td>
+                            <a asp-action="EditHighwayForm" asp-route-id=@highway.Id class="btn btn-primary btn-sm">Edit</a>
+                            <a asp-action="DeleteHighway" asp-route-id=@highway.Id class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿@*
+    Contains a form that can be submitted to add a highway to the database.
+*@
+@{
+    ViewData["title"] = "Add Highway";
+}
+
+<html>
+    <body>
+        <form asp-action="AddHighway" method="post">
+            <div class="form-group">
+                <label for="roadClass">Road Type:</label>
+                <select class="form-select" aria-label="Select road class" id="roadClass" name="roadClass" required>
+                    <option value="" disabled selected>Please select road type</option>
+                    <option value="0">Interstate</option>
+                    <option value="1">US Highway</option>
+                    <option value="2">State Highway</option>
+                    <option value="3">County Road</option>
+                    <option value="4">Local Road</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="roadNumber">Road Number:</label>
+                <input type="number" id="roadNumber" name="roadNumber" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="beginCity">Begin City:</label>
+                <input type="text" class="form-control" id="beginCity" name="beginCity" required />
+            </div>
+            <div class="form-group">
+                <label for="beginState">Begin State:</label>
+                <input type="text" class="form-control" name="beginState" id="beginState" required />
+            </div>
+            <div class="form-group">
+                <label for="endCity">End City:</label>
+                <input type="text" class="form-control" id="endCity" name="endCity" required />
+            </div>
+            <div class="form-group">
+                <label for="endState">End State:</label>
+                <input type="text" class="form-control" id="endState" name="endState" required />
+            </div>
+            <div class="form-group">
+                <label for="length">Length (Miles):</label>
+                <input type="number" step="1" class="form-control" id="length" name="length" required />
+            </div>
+            <div class="form-group">
+                <Label>Toll Road:</Label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadNo" value="false" checked />
+                    <label class="form-check-label" for="tollRoadNo">No</label> <br />
+                    <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadYes" value="true" />
+                    <label class="form-check-label" for="tollRoadYes">Yes</label>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success mt-4 me-5">Submit</button>
+                <a asp-action="Index" class="btn btn-primary mt-4">Cancel</a>
+            </div>
+        </form>
+    </body>
+</html>
