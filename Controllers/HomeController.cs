@@ -37,31 +37,21 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult AddHighwayForm()
     {
-        return View();
+        var model = new HighwayModel();
+        return View(model);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddHighway(HighwayClass roadClass, ushort roadNumber,
-        string beginCity, string beginState, string endCity, string endState,
-        uint length, string tollRoad)
+    public async Task<IActionResult> AddHighway(HighwayModel model)
     {
-        bool IsTollRoad = tollRoad.CompareTo("true") == 0 ? true : false;
-        var highway = new HighwayModel
+        if (ModelState.IsValid)
         {
-            RoadClass = roadClass,
-            RoadNumber = roadNumber,
-            BeginCity = beginCity,
-            BeginState = beginState,
-            EndCity = endCity,
-            EndState = endState,
-            Length = length,
-            IsTollRoad = IsTollRoad
-        };
+            await _context.Highways.AddAsync(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
-        await _context.Highways.AddAsync(highway);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("Index");
+        return View(model);
     }
 
     public IActionResult EditHighwayForm(int id)
@@ -78,30 +68,25 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> EditHighway(int id, HighwayClass roadClass,
-     ushort roadNumber, string beginCity, string beginState,
-     string endCity, string endState, uint length, string tollRoad)
+    public async Task<IActionResult> EditHighway(HighwayModel highway)
     {
 
-        var highway = await _context.Highways.FindAsync(id);
-        if (highway == null)
+        
+        if (ModelState.IsValid)
         {
-            Console.WriteLine("NO!!!!!");
-            return RedirectToAction("Index");
+            var existingHighway = await _context.Highways.FindAsync(highway.Id);
+            if (existingHighway == null)
+            {
+                return NotFound();
+            }
 
+            _context.Entry(existingHighway).CurrentValues.SetValues(highway);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");   
         }
 
-        highway.RoadClass = roadClass;
-        highway.RoadNumber = roadNumber;
-        highway.BeginCity = beginCity;
-        highway.BeginState = beginState;
-        highway.EndCity = endCity;
-        highway.EndState = endState;
-        highway.Length = length;
-        highway.IsTollRoad = tollRoad.CompareTo("true") == 0;
-
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index");
+        return View(highway);
     }
 
     public async Task<IActionResult> DeleteHighway(int id)

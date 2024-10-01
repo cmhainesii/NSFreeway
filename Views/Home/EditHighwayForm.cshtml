@@ -6,75 +6,66 @@
 
 
 <html>
-    <body>
-        <h1 class="display-4 text-center mb-5">Edit Highway</h1>
-        <form asp-action="EditHighway" method="post">
-            <div class="form-group">
-                <label for="roadClass">Road Type:</label>
-                @{
-                    ViewData["Id"] = "roadClass";
-                }
-                @await Html.PartialAsync("_RoadClassDropdown", Model.RoadClass.ToString())
-            </div>
-            <div class="form-group">
-                <label for="roadNumber">Road Number:</label>
-                <input type="number" name="roadNumber" id="roadNumber" class="form-control" value=@Model.RoadNumber required />
-            </div>
-            <div class="form-group">
-                <label for="beginCity">Begin City:</label>
-                <input type="text" class="form-control" name="beginCity" id="beginCity" value=@Model.BeginCity required />
-            </div>
-            <div class="form-group">
-                <label for="beginState">Begin State:</label>
-                @{
-                    ViewData["Id"] = "beginState";
-                }
-                @await Html.PartialAsync("_StateDropdown", Model.BeginState)
-            </div>
-            <div class="form-group">
-                <label for="endCity">End City:</label>
-                <input type="text" class="form-control" name="endCity" id="endCity" value=@Model.EndCity required />
-            </div>
-            <div class="form-group">
-                <label for="endState">End State:</label>
-                @{
-                    ViewData["Id"] = "endState";
-                }
-                @await Html.PartialAsync("_StateDropdown", Model.EndState)
-            </div>
-            <div class="form-group">
-                <label for="length">Length (Miles):</label>
-                <input type="number" class="form-control" name="length" id="length" value=@Model.Length required />
-            </div>
-            <div class="form-group">
-                <label>Toll Road:</label>
-            
-                <div class="form-check">
-                    @if(!@Model.IsTollRoad)
+
+<body>
+    <h1 class="display-4 text-center mb-5">Edit Highway</h1>
+    <form asp-action="EditHighway" method="post">
+        <div class="form-group">
+            <label for="roadClass">Road Type:</label>
+            @{
+                ViewData["Id"] = "roadClass";
+            }
+            @await Html.PartialAsync("_RoadClassDropdown", Model.RoadClass.ToString())
+        </div>
+        <div class="form-group">
+            <label for="roadNumber">Road Number:</label>
+            <input type="number" asp-for="RoadNumber" id="roadNumber" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="beginCity">Begin City:</label>
+            <input type="text" asp-for="BeginCity" class="form-control" id="beginCity" required />
+        </div>
+        <div class="form-group">
+            <label for="beginState">Begin State:</label>
+            @{
+                ViewData["Id"] = "beginState";
+            }
+            @await Html.PartialAsync("_StateDropdown", Model.BeginState.ToString())
+        </div>
+        <div class="form-group">
+            <label for="endCity">End City:</label>
+            <input type="text" asp-for="EndCity" class="form-control" id="endCity" required />
+        </div>
+        <div class="form-group">
+            <label for="endState">End State:</label>
+            @{
+                ViewData["Id"] = "endState";
+            }
+            @await Html.PartialAsync("_StateDropdown", Model.EndState.ToString())
+        </div>
+        <div class="form-group">
+            <label for="length">Length (Miles):</label>
+            <input type="number" asp-for="Length" class="form-control" id="length" required />
+        </div>
+        <div class="form-group">
+            <label>Toll Road:</label>
+            <div class="form-check">
+                @Html.RadioButtonFor(m => m.IsTollRoad, false, new
                     {
-                        <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadNo" checked value="false"/>
-                    }
-                    else
-                    {
-                        <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadNo" value="false"/>
-                    }
-                    <label class="form-check-label" for="tollRoadNo">No</label> <br />
-                    @if (!@Model.IsTollRoad)
-                    {
-                        <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadYes" value="true" />
-                    }
-                    else
-                    {
-                        <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadYes" value="true" checked />
-                    }
-                    <label class="form-check-label" for="tollRoadYes">Yes</label>
-                </div>
+                        @class = "form-check-input",
+                        id = "tollRoadFalse"
+                    })
+                <label class="form-check-label" for="tollRoadFalse">No</label> <br />
+                @Html.RadioButtonFor(m => m.IsTollRoad, true, new { @class = "form-check-input", id = "tollRoadTrue" })
+                <label class="form-check-label" for="tollRoadTrue">Yes</label>
             </div>
-            <input type="hidden" name="id" value=@Model.Id />
-            <div>
-                <button type="submit" class="btn btn-success mt-4 me-5">Submit</button>
-                <a asp-action="Index" class="mt-4 btn-danger btn">Cancel</a>
-            </div>
-        </form>
-    </body>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <button type="submit" class="btn btn-success mt-4 me-5">Submit</button>
+            <a asp-action="Index" class="mt-4 btn-danger btn">Cancel</a>
+        </div>
+    </form> 
+</body>
+
 </html>

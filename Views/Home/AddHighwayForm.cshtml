@@ -5,6 +5,8 @@
     ViewData["title"] = "Add Highway";
 }
 
+@model NSFreeway.Models.HighwayModel
+
 <html>
     <body>
         <h1 class="display-4 text-center mb-5">Add Highway</h1>
@@ -14,15 +16,15 @@
                 @{
                     ViewData["Id"] = "roadClass";
                 }
-                @await Html.PartialAsync("_RoadClassDropdown", null)
+                @await Html.PartialAsync("_RoadClassDropdown", Model.RoadClass.ToString())
             </div>
             <div class="form-group">
                 <label for="roadNumber">Road Number:</label>
-                <input type="number" id="roadNumber" name="roadNumber" class="form-control" required />
+                <input type="number" asp-for="RoadNumber" id="roadNumber" name="roadNumber" class="form-control" required />
             </div>
             <div class="form-group">
                 <label for="beginCity">Begin City:</label>
-                <input type="text" class="form-control" id="beginCity" name="beginCity" required />
+                <input type="text" asp-for="BeginCity" class="form-control" id="beginCity" name="beginCity" required />
             </div>
             <div class="form-group">
                 <label for="beginState">Begin State:</label>
@@ -30,32 +32,32 @@
                     ViewData["Id"] = "beginState";
                     ViewData["Name"] = "beginState";
                 }
-                @await Html.PartialAsync("_StateDropdown")
+                @await Html.PartialAsync("_StateDropdown", Model.BeginState.ToString())
                 
             </div>
             <div class="form-group">
                 <label for="endCity">End City:</label>
-                <input type="text" class="form-control" id="endCity" name="endCity" required />
+                <input type="text" class="form-control" asp-for="EndCity" id="endCity" name="endCity" required />
             </div>
             <div class="form-group">
                 <label for="endState">End State:</label>
                 @{
-                    ViewData["Id"] = "endState";
+                    ViewData["Id"] = "endState";    
                     ViewData["Name"] = "endState";
                 }
-                @await Html.PartialAsync("_StateDropdown")
+                @await Html.PartialAsync("_StateDropdown", Model.EndState.ToString())
             </div>
             <div class="form-group">
                 <label for="length">Length (Miles):</label>
-                <input type="number" step="1" class="form-control" id="length" name="length" required />
+                <input type="number" step="1" asp-for="Length" class="form-control" id="length" name="length" required />
             </div>
             <div class="form-group">
                 <Label>Toll Road:</Label>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadNo" value="false" checked />
-                    <label class="form-check-label" for="tollRoadNo">No</label> <br />
-                    <input class="form-check-input" type="radio" name="tollRoad" id="tollRoadYes" value="true" />
-                    <label class="form-check-label" for="tollRoadYes">Yes</label>
+                    @Html.RadioButtonFor(m => m.IsTollRoad, false, new { @class = "form-check-input", id = "tollRoadFalse"})
+                    <label class="form-check-label" for="tollRoadFalse">No</label> <br />
+                    @Html.RadioButtonFor(m => m.IsTollRoad, true, new { @class = "form-check-input", id = "tollRoadTrue"})
+                    <label class="form-check-label" for="tollRoadTrue">Yes</label>
                 </div>
             </div>
             <div>
