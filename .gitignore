@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 # DB files
 *.db
 *.db-*
+
+# Migrations directory
+Migrations/
