@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var configuration = builder.Configuration;
-builder.Services.AddDbContext<HighwayContext> (options =>
+builder.Services.AddDbContext<HighwayDataContext> (options =>
 {
     options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 });

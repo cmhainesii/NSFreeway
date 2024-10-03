@@ -9,9 +9,9 @@ namespace NSFreeway.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly HighwayContext _context;
+    private readonly HighwayDataContext _context;
 
-    public HomeController(ILogger<HomeController> logger, HighwayContext context)
+    public HomeController(ILogger<HomeController> logger, HighwayDataContext context)
     {
         _logger = logger;
         _context = context;
@@ -21,6 +21,20 @@ public class HomeController : Controller
     {
         var highways = _context.Highways.ToList();
         return View(highways);
+    }
+
+    public IActionResult Construction()
+    {
+        var projects = _context.ConstructionProjects
+                    .Include(p => p.Highway)
+                    .ToList();
+        
+        foreach (var project in projects)
+        {
+            Console.WriteLine($"Project Id: {project.Id}, Highway: {project.Highway?.RoadClass} {project.Highway?.RoadNumber}, Start Date: {project.StartDate}, End Date: {project.EndDate}");
+        }        
+
+        return View(projects);
     }
 
     public IActionResult Privacy()
@@ -40,6 +54,24 @@ public class HomeController : Controller
         var model = new HighwayModel();
         return View(model);
     }
+
+    [HttpGet]
+    public IActionResult AddConstructionRoadSelect()
+    {
+        var highways = _context.Highways.OrderBy(m => m.RoadClass).ThenBy(m => m.RoadNumber).ToList();
+        return View(highways);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AddConstructionForm(int roadId)
+    {
+        var highway = await _context.Highways.FindAsync(roadId);
+        Console.WriteLine($"Road Selected: {highway?.GetShortName()}");
+        Console.WriteLine($"RoadID: {roadId}");
+
+        return RedirectToAction("Index");
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> AddHighway(HighwayModel model)

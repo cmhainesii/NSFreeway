@@ -19,31 +19,32 @@ public enum HighwayClass
 
 public class HighwayModel
 {
-    public static HighwayClass FromString(string input)
+    public string GetShortName()
     {
-        HighwayClass hwClass;
-        if(input.CompareTo("0") == 0)
+        string shortName = string.Empty;
+        switch(RoadClass)
         {
-            hwClass = HighwayClass.Interstate;
-        }
-        else if (input.CompareTo("1") == 0)
-        {
-            hwClass = HighwayClass.US_Highway;
-        }
-        else if (input.CompareTo("2") == 0)
-        {
-            hwClass = HighwayClass.State_Highway;
-        }
-        else if (input.CompareTo("3") == 0)
-        {
-            hwClass = HighwayClass.County_Road;
-        }
-        else
-        {
-            hwClass = HighwayClass.Local_Road;
+            case HighwayClass.Interstate:
+                shortName = "I-";
+                break;
+            case HighwayClass.State_Highway:
+                shortName = $"{BeginState}-";
+                break;
+            case HighwayClass.US_Highway:
+                shortName = "US-";
+                break;
+            case HighwayClass.County_Road:
+                shortName = $"{BeginState}-CR-";
+                break;
+            case HighwayClass.Local_Road:
+            default:
+                shortName = "Local-";
+                break;
         }
 
-        return hwClass;
+        shortName += RoadNumber;
+
+        return shortName;
     }
 
     public static string ToReadableString(HighwayClass roadClass)

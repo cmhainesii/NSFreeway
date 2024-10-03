@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Construction";
+}
+
+@model IEnumerable<NSFreeway.Models.RoadConstruction>
+
+<div>
+    <h1 class="display-4 text-center">All Construction Projects</h1>
+    <div>
+        <a asp-action="AddConstructionRoadSelect" class="btn btn-primary mb-3">+ Add Road Construction Project</a>
+        <table class="table table-striped table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Highway</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reason</th>
+                    <th>Impact</th>
+                    <th>Location Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var project in Model)
+                {
+                    if(project.Highway != null)
+                    {
+                        <tr>
+                            <td>@project.Id</td>
+                            <td>@project.Highway.GetShortName()</td>
+                            <td>@project.StartDate.ToShortDateString()</td>
+                            <td>@project.EndDate.ToShortDateString()</td>
+                            <td>@project.Reason</td>
+                            <td>@project.Impact</td>
+                            <td>@project.LocationDescription</td>
+                            <td>
+                                <a asp-action="EditConstruction" asp-route-id=@project.Id class="btn btn-primary btn-md me-4">Edit</a>
+                                <a asp-action="DeleteConstruction" asp-route-id=@project.Id class="btn btn-danger btn-md">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+    </div>
+</div>
