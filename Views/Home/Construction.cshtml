@@ -35,8 +35,8 @@
                             <td>@project.Impact</td>
                             <td>@project.LocationDescription</td>
                             <td>
-                                <a asp-action="EditConstruction" asp-route-id=@project.Id class="btn btn-primary btn-md me-4">Edit</a>
-                                <a asp-action="DeleteConstruction" asp-route-id=@project.Id class="btn btn-danger btn-md">Delete</a>
+                                <a asp-action="EditConstruction" asp-route-projectId=@project.Id class="btn btn-primary btn-md w-75 mb-2">Edit</a>
+                                <a asp-action="DeleteConstruction" asp-route-id=@project.Id class="btn btn-danger btn-md w-75">Delete</a>
                             </td>
                         </tr>
                     }
