@@ -11,6 +11,14 @@ public class RoadConstruction
     public string Reason { get; set; } = string.Empty;
     public string Impact { get; set; } = string.Empty;
     public string LocationDescription { get; set; } = string.Empty;
+    public bool IsWorkCompleted { get; set; }
 
-    public HighwayModel? Highway { get; set; }
+    // Navigation property
+    public HighwayModel Highway { get; set; }
+
+
+    public RoadConstruction()
+    {
+        Highway = new HighwayModel();        
+    }
 }

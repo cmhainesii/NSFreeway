@@ -28,6 +28,7 @@ public class HomeController : Controller
     {
         var projects = _context.ConstructionProjects
                     .Include(p => p.Highway)
+                    .Where(p => !p.IsWorkCompleted)
                     .ToList();        
 
         return View(projects);
@@ -143,6 +144,18 @@ public class HomeController : Controller
         }
 
         return View(project);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> MarkProjectCompleted(int projectId)
+    {
+        var project = await _context.ConstructionProjects.FindAsync(projectId);
+        if(project != null)
+        {
+            project.IsWorkCompleted = true;
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction("Construction");
     }
 
     [HttpPost]

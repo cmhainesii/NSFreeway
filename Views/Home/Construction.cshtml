@@ -7,24 +7,25 @@
 <div>
     <h1 class="display-4 text-center">All Construction Projects</h1>
     <div>
-        <a asp-action="AddConstructionRoadSelect" class="btn btn-primary mb-3">+ Add Road Construction Project</a>
-        <table class="table table-striped table-bordered table-hover text-center">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Highway</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Reason</th>
-                    <th>Impact</th>
-                    <th>Location Description</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var project in Model)
-                {
-                    if(project.Highway != null)
+        <a asp-action="AddConstructionRoadSelect" class="btn btn-primary mb-4 mt-5">+ Add Road Construction Project</a>
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Highway</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
+                        <th>Impact</th>
+                        <th>Location Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var project in Model)
                     {
                         <tr>
                             <td>@project.Id</td>
@@ -35,12 +36,23 @@
                             <td>@project.Impact</td>
                             <td>@project.LocationDescription</td>
                             <td>
-                                <a asp-action="EditConstruction" asp-route-projectId=@project.Id class="btn btn-primary btn-md w-75 mb-2">Edit</a>
-                                <a asp-action="DeleteConstruction" asp-route-id=@project.Id class="btn btn-danger btn-md w-75">Delete</a>
+                                <a asp-action="EditConstruction" asp-route-projectId=@project.Id
+                                    class="btn btn-primary btn-md w-75 mb-2">Edit</a>
+                                <a asp-action="MarkProjectCompleted" asp-route-projectId=@project.Id
+                                    class="btn btn-primary btn-md w-75 mb-2">Mark Completed</a>
+                                <a asp-action="DeleteConstruction" asp-route-id=@project.Id
+                                    class="btn btn-danger btn-md w-75">Delete</a>
+
                             </td>
                         </tr>
+
                     }
-                }
-            </tbody>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3 class="text-center mb-5 mt-5">No road active road construction projects.</h3>
+        }
     </div>
 </div>
