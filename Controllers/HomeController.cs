@@ -1,9 +1,8 @@
-using System.Diagnostics;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NSFreeway.Contexts;
 using NSFreeway.Models;
+using System.Diagnostics;
 
 namespace NSFreeway.Controllers;
 
@@ -24,15 +23,27 @@ public class HomeController : Controller
         return View(highways);
     }
 
-    public IActionResult Construction()
+
+
+    public IActionResult Construction(bool showCompleted = false)
     {
         var projects = _context.ConstructionProjects
-                    .Include(p => p.Highway)
-                    .Where(p => !p.IsWorkCompleted)
-                    .ToList();        
+                    .Include(p => p.Highway).ToList();
 
+        if (showCompleted == true)
+        {
+            projects = projects.Where(p => p.IsWorkCompleted).ToList();
+        }
+        else
+        {
+            projects = projects.Where(p => !p.IsWorkCompleted).ToList();
+        }
+
+        ViewBag.showCompleted = showCompleted;
         return View(projects);
     }
+
+
 
     public IActionResult Privacy()
     {
@@ -73,7 +84,7 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddConstructionForm(RoadConstruction project)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return RedirectToAction("Construction");
         }
@@ -113,7 +124,7 @@ public class HomeController : Controller
     public async Task<IActionResult> EditHighway(HighwayModel highway)
     {
 
-        
+
         if (ModelState.IsValid)
         {
             var existingHighway = await _context.Highways.FindAsync(highway.Id);
@@ -125,7 +136,7 @@ public class HomeController : Controller
             _context.Entry(existingHighway).CurrentValues.SetValues(highway);
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");   
+            return RedirectToAction("Index");
         }
 
         return View(highway);
@@ -137,8 +148,8 @@ public class HomeController : Controller
     {
         Console.WriteLine($"Project ID: {projectId}");
         var project = await _context.ConstructionProjects.FindAsync(projectId);
-        
-        if(project == null)
+
+        if (project == null)
         {
             return NotFound();
         }
@@ -150,7 +161,7 @@ public class HomeController : Controller
     public async Task<IActionResult> MarkProjectCompleted(int projectId)
     {
         var project = await _context.ConstructionProjects.FindAsync(projectId);
-        if(project != null)
+        if (project != null)
         {
             project.IsWorkCompleted = true;
             await _context.SaveChangesAsync();
@@ -161,14 +172,14 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> EditConstruction(RoadConstruction project)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             RedirectToAction("Construction");
         }
 
         var originalProject = await _context.ConstructionProjects.FindAsync(project.Id);
         Console.WriteLine($"Project ID 2: {project.Id}");
-        if(originalProject == null)
+        if (originalProject == null)
         {
             return NotFound();
         }
@@ -182,7 +193,7 @@ public class HomeController : Controller
     {
         var highway = await _context.Highways.FindAsync(id);
 
-        if(highway == null)
+        if (highway == null)
         {
             return NotFound();
         }
@@ -195,13 +206,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> DeleteConstruction(int id)
     {
-        if( id <= 0)
+        if (id <= 0)
         {
             return RedirectToAction("Construction");
         }
-        
+
         var project = await _context.ConstructionProjects.FindAsync(id);
-        if(project == null)
+        if (project == null)
         {
             // Not found
             return RedirectToAction("Construction");
